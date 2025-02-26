@@ -15,13 +15,14 @@ const ThemeProvider = (props) => {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const prefersDarkMode = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
 
   const [darkMode, setDarkMode] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
-    return storedTheme ? storedTheme === "dark" : prefersDarkMode;
+    return storedTheme ? storedTheme === "dark" : true;
   });
 
   const toggleDarkMode = () => {
