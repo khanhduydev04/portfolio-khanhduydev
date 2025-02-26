@@ -29,12 +29,6 @@ import figma from "../assets/technologies/figma.png";
 import materialui from "../assets/technologies/materialui.png";
 import sequelize from "../assets/technologies/sequelize.png";
 
-import timeline1 from "../assets/timeline/fptpolytectnic.jpg";
-import timeline2 from "../assets/timeline/landingpage.jpg";
-import timeline3 from "../assets/timeline/generativeai.jpg";
-import timeline4 from "../assets/timeline/totnghiep.jpg";
-import timeline5 from "../assets/timeline/intern.jpg";
-
 import { IoBookmarkOutline } from "react-icons/io5";
 import { IoMedalOutline } from "react-icons/io5";
 import { GoTrophy } from "react-icons/go";
@@ -73,7 +67,6 @@ export const TIMELINE = [
         "Internship at the Quy Nhon Artificial Intelligence Research and Application Center (QAI) - FPT Software Quy Nhon as an AI Engineer. Participated in projects related to AI, Computer Vision. Gained experience working with micro-service architecture, Docker, Redis, Yolo, and solving real-time camera processing challenges. Learned a lot from experts and colleagues in the company from knowledge, professional skills, work experience to professional work spirit and responsibility.",
     },
     icon: React.createElement(CgWorkAlt),
-    image: timeline5,
   },
   {
     title: {
@@ -92,7 +85,6 @@ export const TIMELINE = [
         "Officially graduated in Web Development at FPT Polytechnic Can Tho with a GPA of 9.1. Ended the learning journey and prepared for a new job.",
     },
     icon: React.createElement(PiGraduationCap),
-    image: timeline4,
   },
   {
     title: {
@@ -111,7 +103,6 @@ export const TIMELINE = [
         "This is a technology competition for students, students, and learners of FPT Education nationwide with the theme Generative AI - GenAI for sustainable development, life. The competition is an opportunity for me to learn and access more AI. With relentless effort, I and my teammates won the first prize in group B. This is a big step in my career and opens up many opportunities for me.",
     },
     icon: React.createElement(GoTrophy),
-    image: timeline3,
   },
   {
     title: {
@@ -130,7 +121,6 @@ export const TIMELINE = [
         "This is a competition to build a Landing Page Website for all FPT Polytechnic students nationwide. This is my first competition and I won the Encouragement Award with my friends. This is a great motivation for me to continue learning and developing myself.",
     },
     icon: React.createElement(IoMedalOutline),
-    image: timeline2,
   },
   {
     title: {
@@ -149,7 +139,6 @@ export const TIMELINE = [
         "Started my passion for programming and chose to study Web Development because I enjoyed building interfaces. Spent a lot of time learning and practicing with new technologies and languages such as C, Java, Javascript, PHP to fulfill my desire to become a developer.",
     },
     icon: React.createElement(IoBookmarkOutline),
-    image: timeline1,
   },
 ];
 
