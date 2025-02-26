@@ -1,4 +1,4 @@
-import Navbar from "./components/NavBar";
+import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Technologies from "./components/Technologies";
@@ -26,7 +26,7 @@ const App = () => {
         )}
       </div>
       <div className="container mx-auto px-4 lg:px-8 relative">
-        <Navbar />
+        <Header />
         <Hero />
         <About />
         <Technologies />

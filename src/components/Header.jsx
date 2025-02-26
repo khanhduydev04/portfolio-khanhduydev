@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { CONTACT } from "../constants";
 
-const Navbar = () => {
+const Header = () => {
   return (
     <nav className="mb-16 flex justify-between items-center py-6">
       <div className="flex shrink-0 items-center">
@@ -22,4 +22,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;
