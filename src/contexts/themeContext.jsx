@@ -4,7 +4,7 @@ const ThemeContext = createContext();
 
 const ThemeProvider = (props) => {
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem("language") || "vietnamese";
+    return localStorage.getItem("language") || "english";
   });
 
   const toggleLanguage = () => {

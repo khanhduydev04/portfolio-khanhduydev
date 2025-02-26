@@ -2,9 +2,15 @@ import { TITLES, PROJECTS } from "../constants";
 import { IoLinkOutline } from "react-icons/io5";
 import { motion } from "motion/react";
 import { useTheme } from "../contexts/themeContext";
+import VideoPlayer from "./VideoPlayer";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { IoLogoGithub } from "react-icons/io";
+import { FaPlay } from "react-icons/fa6";
 
 const Project = () => {
-  const { language } = useTheme();
+  const { language, darkMode } = useTheme();
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   return (
     <section className="border-b border-sky-200 dark:border-neutral-800 pb-24">
@@ -46,17 +52,59 @@ const Project = () => {
               {project.role && (
                 <p className="my-3 font-medium">{project.role}</p>
               )}
-              {project.github && (
+              {project.link && (
                 <div className="text-sky-600 relative mb-3 inline-flex items-center gap-1">
                   <IoLinkOutline className="text-xl" />
                   <a
-                    href={project.github}
+                    href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium break-words after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 hover:after:left-0 hover:after:w-full"
+                    className="font-medium break-words break-all after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 hover:after:left-0 hover:after:w-full"
                   >
-                    {project.github}
+                    {project.link}
                   </a>
+                </div>
+              )}
+              {project.certificate && (
+                <div className="text-sky-600 relative mb-3 inline-flex items-center gap-1">
+                  <IoLinkOutline className="text-xl" />
+                  <a
+                    href={project.certificate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium break-words break-all after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 hover:after:left-0 hover:after:w-full"
+                  >
+                    {project.certificate}
+                  </a>
+                </div>
+              )}
+              {(project.video || project.github) && (
+                <div className="flex gap-3 mb-3 text-neutral-200 dark:text-gray-900">
+                  {project.github && (
+                    <Link
+                      to={project.github}
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 dark:bg-neutral-200 rounded hover:bg-gray-700 dark:hover:bg-neutral-50"
+                      target="_blank"
+                    >
+                      <IoLogoGithub
+                        className={
+                          darkMode ? "text-black" : "text-white" + " text-lg"
+                        }
+                      />{" "}
+                      Github
+                    </Link>
+                  )}
+                  {project.video && (
+                    <button
+                      onClick={() => setSelectedVideo(project.video)}
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-gray-800 dark:bg-neutral-200 rounded hover:bg-gray-700 dark:hover:bg-neutral-50 cursor-pointer"
+                    >
+                      <FaPlay
+                        className={darkMode ? "text-black" : "text-white"}
+                      />{" "}
+                      Video demo
+                    </button>
+                  )}
                 </div>
               )}
               <p className="mb-4 text-gray-700 dark:text-gray-400">
@@ -74,6 +122,12 @@ const Project = () => {
           </div>
         ))}
       </div>
+      {selectedVideo && (
+        <VideoPlayer
+          videoUrl={selectedVideo}
+          onClose={() => setSelectedVideo(null)}
+        />
+      )}
     </section>
   );
 };

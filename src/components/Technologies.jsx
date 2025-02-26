@@ -1,6 +1,7 @@
 import { SKILLS, TITLES } from "../constants";
 import { motion } from "motion/react";
 import { useTheme } from "../contexts/themeContext";
+import { Link } from "react-router-dom";
 
 const getRandomDuration = () => {
   const min = 2;
@@ -43,30 +44,31 @@ const Technologies = () => {
         className="flex flex-wrap items-center justify-center gap-4 max-w-5xl mx-auto"
       >
         {SKILLS.map((skill, index) => (
-          <motion.div
-            variants={iconVariants(getRandomDuration())}
-            initial="initial"
-            animate="animate"
-            className="flex flex-col items-center justify-center rounded-2xl p-3 transition-all max-w-[84px] max-h-[84px] relative"
-            key={index}
-          >
-            {skill.light && skill.dark ? (
-              <img
-                src={darkMode ? skill.dark : skill.light}
-                alt={skill.name}
-                className="max-h-full"
-                loading="lazy"
-              />
-            ) : (
-              <img
-                key={skill.name}
-                src={skill.src}
-                alt={skill.name}
-                className="max-h-full"
-                loading="lazy"
-              />
-            )}
-          </motion.div>
+          <Link key={index} className="block" to={skill.link} target="_blank">
+            <motion.div
+              variants={iconVariants(getRandomDuration())}
+              initial="initial"
+              animate="animate"
+              className="flex flex-col items-center justify-center rounded-2xl p-3 transition-all max-w-[84px] max-h-[84px] relative"
+            >
+              {skill.light && skill.dark ? (
+                <img
+                  src={darkMode ? skill.dark : skill.light}
+                  alt={skill.name}
+                  className="max-h-full"
+                  loading="lazy"
+                />
+              ) : (
+                <img
+                  key={skill.name}
+                  src={skill.src}
+                  alt={skill.name}
+                  className="max-h-full"
+                  loading="lazy"
+                />
+              )}
+            </motion.div>
+          </Link>
         ))}
       </motion.div>
     </section>

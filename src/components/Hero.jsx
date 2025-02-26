@@ -54,7 +54,7 @@ const Hero = () => {
               animate="visible"
               href="/VoKhanhDuy _CV_Intern_FrontendDev.pdf"
               download
-              className="flex gap-2 items-center bg-slate-900 text-white mb-8 px-6 py-2 rounded-full hover:bg-slate-800 dark:text-black dark:bg-neutral-100 dark:hover:bg-neutral-300 transition-colors"
+              className="flex gap-2 items-center bg-slate-900 text-white mb-8 px-6 py-2 rounded-full font-medium hover:bg-slate-800 dark:text-black dark:bg-neutral-100 dark:hover:bg-neutral-300 transition-colors"
             >
               Download CV <TfiDownload className="text-lg" />
             </motion.a>
