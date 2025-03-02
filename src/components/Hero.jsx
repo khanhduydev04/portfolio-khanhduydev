@@ -52,7 +52,7 @@ const Hero = () => {
               variants={container(1.5)}
               initial="hidden"
               animate="visible"
-              href="/VoKhanhDuy _CV_Intern_FrontendDev.pdf"
+              href="/Vo Khanh Duy - Frontend Developer.pdf"
               download
               className="flex gap-2 items-center bg-slate-900 text-white mb-8 px-6 py-2 rounded-full font-medium hover:bg-slate-800 dark:text-black dark:bg-neutral-100 dark:hover:bg-neutral-300 transition-colors"
             >
