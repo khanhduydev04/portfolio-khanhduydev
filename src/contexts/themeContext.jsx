@@ -1,54 +1,44 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const ThemeContext = createContext();
 
-const ThemeProvider = (props) => {
-  const [language, setLanguage] = useState(() => {
-    return localStorage.getItem("language") || "english";
-  });
-
-  const toggleLanguage = () => {
-    setLanguage((prev) => {
-      const newLanguage = prev === "vietnamese" ? "english" : "vietnamese";
-      localStorage.setItem("language", newLanguage);
-      return newLanguage;
-    });
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-
+export const ThemeProvider = ({ children }) => {
+  const [language, setLanguage] = useState(
+    () => localStorage.getItem("language") || "english"
+  );
   const [darkMode, setDarkMode] = useState(() => {
-    const storedTheme = localStorage.getItem("theme");
-    return storedTheme ? storedTheme === "dark" : true;
+    const stored = localStorage.getItem("darkMode");
+    return stored !== null ? JSON.parse(stored) : true;
   });
-
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newMode = !prev;
-      localStorage.setItem("theme", newMode ? "dark" : "light");
-      return newMode;
-    });
-  };
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
-  const value = { language, darkMode, toggleLanguage, toggleDarkMode };
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
+  const toggleLanguage = () =>
+    setLanguage((prev) => (prev === "vietnamese" ? "english" : "vietnamese"));
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
-    <ThemeContext.Provider value={value} {...props}></ThemeContext.Provider>
+    <ThemeContext.Provider
+      value={{ language, darkMode, toggleLanguage, toggleDarkMode }}
+    >
+      {children}
+    </ThemeContext.Provider>
   );
 };
 
-const useTheme = () => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (typeof context === "undefined")
-    throw new Error("useTheme must be used within a ThemeContext");
+  if (!context) throw new Error("useTheme must be used within ThemeProvider");
   return context;
 };
-
-export { ThemeProvider, useTheme };

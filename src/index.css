@@ -5,4 +5,32 @@
 
 @theme {
   --font-inter: 'Inter', sans-serif;
+  --color-accent: #06b6d4;
+  --color-accent-light: #4f46e5;
+}
+
+* {
+  cursor: none;
+}
+
+@media (max-width: 768px) {
+  * {
+    cursor: auto;
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(6, 182, 212, 0.3);
+}
+
+.dark ::selection {
+  background-color: rgba(6, 182, 212, 0.3);
 }
