@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, Suspense } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { Html, Billboard } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Html, Billboard, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { TECHNOLOGIES } from "../../constants";
 
@@ -32,13 +32,7 @@ function Planet({ tech, angle, radius, speed }) {
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
   const angleRef = useRef(angle);
-
-  let texture = null;
-  try {
-    texture = useLoader(THREE.TextureLoader, tech.icon);
-  } catch {
-    texture = null;
-  }
+  const texture = useTexture(tech.icon);
 
   useFrame((_, delta) => {
     if (!hovered) {
@@ -56,23 +50,21 @@ function Planet({ tech, angle, radius, speed }) {
         <mesh
           onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
           onPointerOut={() => setHovered(false)}
-          scale={hovered ? 1.4 : 1}
+          scale={hovered ? 1.5 : 1}
         >
-          <planeGeometry args={[0.6, 0.6]} />
-          {texture ? (
-            <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} />
-          ) : (
-            <meshBasicMaterial color="#06b6d4" transparent opacity={0.5} />
-          )}
+          <planeGeometry args={[0.7, 0.7]} />
+          <meshBasicMaterial map={texture} transparent alphaTest={0.1} side={THREE.DoubleSide} />
         </mesh>
-        <mesh position={[0, 0, -0.01]} scale={hovered ? 1.6 : 1.2}>
-          <circleGeometry args={[0.35, 32]} />
-          <meshBasicMaterial color={hovered ? "#06b6d4" : "#ffffff"} transparent opacity={hovered ? 0.15 : 0.05} />
-        </mesh>
+        {hovered && (
+          <mesh position={[0, 0, -0.01]} scale={1.3}>
+            <circleGeometry args={[0.45, 32]} />
+            <meshBasicMaterial color="#06b6d4" transparent opacity={0.15} />
+          </mesh>
+        )}
       </Billboard>
       {hovered && (
         <Html center distanceFactor={10} style={{ pointerEvents: "none" }}>
-          <div className="px-3 py-1.5 bg-neutral-900/90 text-white text-xs rounded-lg whitespace-nowrap backdrop-blur-sm border border-white/10 font-medium">
+          <div className="px-3 py-1.5 bg-neutral-900/90 text-white text-xs rounded-lg whitespace-nowrap backdrop-blur-sm border border-white/10 font-medium shadow-lg">
             {tech.name}
           </div>
         </Html>
@@ -85,7 +77,7 @@ function OrbitRing({ radius, color }) {
   return (
     <mesh rotation-x={Math.PI / 2}>
       <torusGeometry args={[radius, 0.015, 8, 120]} />
-      <meshBasicMaterial color={color} transparent opacity={0.15} />
+      <meshBasicMaterial color={color} transparent opacity={0.2} />
     </mesh>
   );
 }
@@ -129,7 +121,9 @@ function SolarSystemContent({ visible }) {
       <OrbitRing radius={5} color="#8b5cf6" />
       <OrbitRing radius={7} color="#f59e0b" />
       {allPlanets.map((p, i) => (
-        <Planet key={i} tech={p.tech} angle={p.angle} radius={p.radius} speed={p.speed} />
+        <Suspense key={i} fallback={null}>
+          <Planet tech={p.tech} angle={p.angle} radius={p.radius} speed={p.speed} />
+        </Suspense>
       ))}
     </group>
   );

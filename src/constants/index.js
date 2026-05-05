@@ -53,7 +53,7 @@ export const TECHNOLOGIES = {
   backend: [
     { name: "Node.js", icon: "/technologies/nodejs.png" },
     { name: "Express.js", icon: "/technologies/nodejs.png" },
-    { name: "MongoDB", icon: "/technologies/mongodb.svg" },
+    { name: "MongoDB", icon: "/technologies/nodejs.png" },
     { name: "PostgreSQL", icon: "/technologies/mysql.png" },
     { name: "MySQL", icon: "/technologies/mysql.png" },
     { name: "Socket.IO", icon: "/technologies/nodejs.png" },
@@ -181,7 +181,7 @@ export const PROJECTS = [
       vietnamese: "Ứng dụng quản lý công việc - Trello Clone",
       english: "Task Management App - Trello Clone",
     },
-    image: null,
+    image: "/projects/trello.png",
     link: "https://trello-lac-two.vercel.app",
     github: "https://github.com/khanhduydev04/trello-clone-public",
     description: {
@@ -197,7 +197,7 @@ export const PROJECTS = [
       vietnamese: "Hệ thống sàng lọc bệnh AI - Pharmartist",
       english: "AI Disease Screening - Pharmartist",
     },
-    image: null,
+    image: "/projects/pharmartist.png",
     link: null,
     github: null,
     description: {
@@ -213,7 +213,7 @@ export const PROJECTS = [
       vietnamese: "Zalo Mini App - Việt Anh School",
       english: "Zalo Mini App - Viet Anh School",
     },
-    image: null,
+    image: "/projects/vietanhschool.png",
     link: null,
     github: null,
     description: {
@@ -226,7 +226,7 @@ export const PROJECTS = [
   },
   {
     title: "Portfolio Website",
-    image: null,
+    image: "/projects/portfolio.png",
     link: "https://cv.vokhanhduy.site",
     github: "https://github.com/khanhduydev04/portfolio-khanhduydev",
     description: {
