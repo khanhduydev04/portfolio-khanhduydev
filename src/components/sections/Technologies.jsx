@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "../../contexts/themeContext";
 import { TECHNOLOGIES } from "../../constants";
 import SplitText from "../ui/SplitText";
-import TechOrbit from "../three/TechOrbit";
 
 function MobileFallback() {
   const allTech = [
@@ -39,9 +37,9 @@ function MobileFallback() {
       {allTech.map((tech) => (
         <div
           key={tech.name}
-          className="tech-item flex flex-col items-center gap-2 p-4 rounded-xl bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 opacity-0 hover:border-cyan-500/50 transition-colors"
+          className="tech-item flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 opacity-0 hover:border-cyan-500/50 transition-colors"
         >
-          <span className="text-sm text-neutral-700 dark:text-neutral-300 text-center font-medium">
+          <span className="text-sm text-neutral-300 text-center font-medium">
             {tech.name}
           </span>
         </div>
@@ -62,13 +60,17 @@ export default function Technologies() {
   }, []);
 
   return (
-    <section id="technologies" className="py-20 lg:py-32">
+    <section id="technologies" className="py-20 lg:py-32 min-h-screen flex flex-col justify-center">
       <div className="container mx-auto px-4 lg:px-8">
-        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-16 text-neutral-900 dark:text-white">
+        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-16 text-white">
           {language === "vietnamese" ? "Công nghệ" : "Technologies"}
         </SplitText>
 
-        {isMobile ? <MobileFallback /> : <TechOrbit />}
+        {isMobile ? (
+          <MobileFallback />
+        ) : (
+          <div className="h-[500px] lg:h-[600px]" />
+        )}
       </div>
     </section>
   );
