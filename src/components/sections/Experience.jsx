@@ -4,125 +4,158 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "../../contexts/themeContext";
 import { EXPERIENCE, EDUCATION } from "../../constants";
 import SplitText from "../ui/SplitText";
+import { HiAcademicCap } from "react-icons/hi";
 
-function TimelineCard({ item, index, language }) {
-  const cardRef = useRef(null);
-  const isLeft = index % 2 === 0;
-
-  useEffect(() => {
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, x: isLeft ? -60 : 60 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: cardRef.current, start: "top 80%" },
-      }
-    );
-  }, [isLeft]);
+function TimelineNode({ item, index, isEducation = false }) {
+  const { language } = useTheme();
+  const isTop = index % 2 === 0;
 
   return (
-    <div className={`flex items-center gap-4 mb-12 ${isLeft ? "lg:flex-row" : "lg:flex-row-reverse"} flex-col lg:flex-row`}>
+    <div className="timeline-stop flex-shrink-0 w-[80vw] md:w-[50vw] lg:w-[40vw] relative flex flex-col items-center">
+      {/* Card */}
       <div
-        ref={cardRef}
-        className={`lg:w-[45%] w-full opacity-0 ${isLeft ? "lg:text-right" : "lg:text-left"}`}
+        className={`timeline-card w-full max-w-md ${isTop ? "order-1 mb-8" : "order-3 mt-8"}`}
       >
-        <div className="p-6 rounded-xl bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-          <span className="text-sm text-cyan-500 font-medium">{item.time}</span>
-          <h3 className="text-lg font-bold mt-1 text-neutral-900 dark:text-white">
-            {item.title[language]}
+        <div
+          className={`p-6 rounded-xl backdrop-blur-md border transition-all duration-300 ${
+            isEducation
+              ? "bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border-cyan-500/30"
+              : "bg-white/5 border-white/10 hover:border-cyan-500/30"
+          }`}
+        >
+          <span className="text-sm text-cyan-400 font-medium font-mono">
+            {isEducation ? EDUCATION.time : item.time}
+          </span>
+          <h3 className="text-lg font-bold mt-1 text-white">
+            {isEducation ? EDUCATION.degree[language] : item.title[language]}
           </h3>
-          <p className="text-sm text-purple-500 dark:text-purple-400 font-medium">
-            {item.company}
+          <p className="text-sm text-purple-400 font-medium">
+            {isEducation ? EDUCATION.school : item.company}
           </p>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">
-            {item.description[language]}
+          <p className="text-sm text-neutral-400 mt-2 leading-relaxed">
+            {isEducation
+              ? `${EDUCATION.major[language]} • GPA: ${EDUCATION.gpa}`
+              : item.description[language]}
           </p>
         </div>
       </div>
 
-      <div className="hidden lg:flex w-[10%] justify-center">
-        <div className="timeline-dot w-4 h-4 rounded-full bg-cyan-500 border-4 border-white dark:border-neutral-900 shadow-lg shadow-cyan-500/30" />
+      {/* Node on track */}
+      <div className="order-2 relative z-10">
+        <div
+          className={`timeline-node w-5 h-5 rounded-full border-4 border-neutral-900 shadow-lg ${
+            isEducation
+              ? "bg-amber-500 shadow-amber-500/30"
+              : "bg-cyan-500 shadow-cyan-500/30"
+          }`}
+        >
+          {isEducation && (
+            <HiAcademicCap className="absolute -top-6 left-1/2 -translate-x-1/2 text-amber-400 text-lg" />
+          )}
+        </div>
       </div>
 
-      <div className="hidden lg:block lg:w-[45%]" />
+      {/* Spacer for opposite side */}
+      <div className={`${isTop ? "order-3" : "order-1"} h-24`} />
     </div>
   );
 }
 
 export default function Experience() {
   const { language } = useTheme();
-  const lineRef = useRef(null);
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const progressRef = useRef(null);
 
   useEffect(() => {
-    gsap.fromTo(
-      lineRef.current,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
+    const ctx = gsap.context(() => {
+      const track = trackRef.current;
+      const totalWidth = track.scrollWidth - window.innerWidth;
+
+      gsap.to(track, {
+        x: -totalWidth,
         ease: "none",
         scrollTrigger: {
-          trigger: lineRef.current,
-          start: "top 70%",
-          end: "bottom 30%",
-          scrub: true,
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${totalWidth}`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            if (progressRef.current) {
+              progressRef.current.style.transform = `scaleX(${self.progress})`;
+            }
+          },
         },
-      }
-    );
+      });
 
-    gsap.utils.toArray(".timeline-dot").forEach((dot) => {
       gsap.fromTo(
-        dot,
+        ".timeline-card",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.2,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        ".timeline-node",
         { scale: 0 },
         {
           scale: 1,
+          stagger: 0.15,
           duration: 0.4,
           ease: "back.out(2)",
-          scrollTrigger: { trigger: dot, start: "top 80%" },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
         }
       );
-    });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
+  const allItems = [
+    ...EXPERIENCE.map((item, i) => ({ item, index: i, isEducation: false })),
+    { item: null, index: EXPERIENCE.length, isEducation: true },
+  ];
+
   return (
-    <section id="experience" className="py-20 lg:py-32">
-      <div className="container mx-auto px-4 lg:px-8">
-        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-16 text-neutral-900 dark:text-white">
+    <section ref={sectionRef} id="experience" className="overflow-hidden">
+      <div className="pt-20 lg:pt-32 pb-8 container mx-auto px-4 lg:px-8">
+        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
           {language === "vietnamese" ? "Kinh nghiệm" : "Experience"}
         </SplitText>
+      </div>
 
-        <div className="relative max-w-5xl mx-auto">
+      <div className="relative h-[60vh] flex items-center">
+        <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-white/10">
           <div
-            ref={lineRef}
-            className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500 via-purple-500 to-amber-500 origin-top scale-y-0 -translate-x-1/2"
+            ref={progressRef}
+            className="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-500 origin-left"
+            style={{ transform: "scaleX(0)" }}
           />
+        </div>
 
-          {EXPERIENCE.map((item, i) => (
-            <TimelineCard key={i} item={item} index={i} language={language} />
+        <div ref={trackRef} className="flex items-center gap-8 px-[10vw]">
+          {allItems.map(({ item, index, isEducation }) => (
+            <TimelineNode
+              key={index}
+              item={item}
+              index={index}
+              isEducation={isEducation}
+            />
           ))}
-
-          <div className="flex items-center gap-4 flex-col lg:flex-row">
-            <div className="lg:w-[45%] w-full lg:text-right">
-              <div className="p-6 rounded-xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 dark:border-cyan-500/20">
-                <span className="text-sm text-cyan-500 font-medium">{EDUCATION.time}</span>
-                <h3 className="text-lg font-bold mt-1 text-neutral-900 dark:text-white">
-                  {EDUCATION.degree[language]}
-                </h3>
-                <p className="text-sm text-purple-500 dark:text-purple-400 font-medium">
-                  {EDUCATION.school}
-                </p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-                  {EDUCATION.major[language]} • GPA: {EDUCATION.gpa}
-                </p>
-              </div>
-            </div>
-            <div className="hidden lg:flex w-[10%] justify-center">
-              <div className="timeline-dot w-4 h-4 rounded-full bg-amber-500 border-4 border-white dark:border-neutral-900 shadow-lg shadow-amber-500/30" />
-            </div>
-            <div className="hidden lg:block lg:w-[45%]" />
-          </div>
         </div>
       </div>
     </section>
