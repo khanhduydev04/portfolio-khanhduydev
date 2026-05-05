@@ -1,4 +1,8 @@
+import { useRef, useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
 import { useTheme } from "./contexts/themeContext";
+import { useScrollProgress } from "./hooks/useScrollProgress";
+import SceneManager from "./components/three/SceneManager";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import PageLoader from "./components/layout/PageLoader";
@@ -13,6 +17,17 @@ import Contact from "./components/sections/Contact";
 
 export default function App() {
   const { darkMode } = useTheme();
+  const scrollData = useScrollProgress();
+  const mouse = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
     <>
@@ -20,17 +35,21 @@ export default function App() {
       <CustomCursor />
       <ScrollProgress />
 
-      <div className="font-inter text-neutral-900 dark:text-neutral-200 antialiased">
-        <div className="fixed inset-0 -z-10">
-          {darkMode ? (
-            <div className="h-full w-full bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(6,182,212,0.15),rgba(255,255,255,0))]" />
-          ) : (
-            <div className="h-full w-full bg-white bg-[radial-gradient(circle_800px_at_50%_200px,#dbeafe,transparent)]" />
-          )}
-        </div>
+      {/* Fixed 3D Canvas Background */}
+      <div className="fixed inset-0 z-0">
+        <Canvas
+          camera={{ position: [0, 0, 15], fov: 60 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true }}
+          style={{ background: darkMode ? "#0a0a0a" : "#050510" }}
+        >
+          <SceneManager scrollData={scrollData} mouse={mouse} />
+        </Canvas>
+      </div>
 
+      {/* Scrollable DOM Content */}
+      <div className="relative z-10 font-inter text-neutral-200 antialiased">
         <Header />
-
         <main>
           <Hero />
           <About />
@@ -39,7 +58,6 @@ export default function App() {
           <Projects />
           <Contact />
         </main>
-
         <Footer />
       </div>
     </>
