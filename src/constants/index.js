@@ -43,28 +43,28 @@ export const STATS = [
 
 export const TECHNOLOGIES = {
   frontend: [
-    { name: "React" },
-    { name: "Next.js" },
-    { name: "React Native" },
-    { name: "TypeScript" },
-    { name: "Tailwind CSS" },
-    { name: "Redux" },
+    { name: "React", icon: "/technologies/react.png" },
+    { name: "Next.js", icon: "/technologies/nextjs-white.png" },
+    { name: "React Native", icon: "/technologies/react.png" },
+    { name: "TypeScript", icon: "/technologies/typescript.png" },
+    { name: "Tailwind CSS", icon: "/technologies/tailwind.png" },
+    { name: "Redux", icon: "/technologies/redux.png" },
   ],
   backend: [
-    { name: "Node.js" },
-    { name: "Express.js" },
-    { name: "MongoDB" },
-    { name: "PostgreSQL" },
-    { name: "MySQL" },
-    { name: "Socket.IO" },
+    { name: "Node.js", icon: "/technologies/nodejs.png" },
+    { name: "Express.js", icon: "/technologies/nodejs.png" },
+    { name: "MongoDB", icon: "/technologies/mongodb.svg" },
+    { name: "PostgreSQL", icon: "/technologies/mysql.png" },
+    { name: "MySQL", icon: "/technologies/mysql.png" },
+    { name: "Socket.IO", icon: "/technologies/nodejs.png" },
   ],
   tools: [
-    { name: "Docker" },
-    { name: "Git" },
-    { name: "Firebase" },
-    { name: "Supabase" },
-    { name: "Figma" },
-    { name: "Jest" },
+    { name: "Docker", icon: "/technologies/nodejs.png" },
+    { name: "Git", icon: "/technologies/github-white.png" },
+    { name: "Firebase", icon: "/technologies/firebase.png" },
+    { name: "Supabase", icon: "/technologies/firebase.png" },
+    { name: "Figma", icon: "/technologies/figma.png" },
+    { name: "Jest", icon: "/technologies/javascript.png" },
   ],
 };
 
@@ -235,17 +235,6 @@ export const PROJECTS = [
     },
     technologies: ["React 19", "Three.js", "GSAP", "Tailwind CSS"],
   },
-  {
-    title: "Placeholder Project 8",
-    image: null,
-    link: null,
-    github: null,
-    description: {
-      vietnamese: "Mô tả dự án sẽ được cập nhật sau.",
-      english: "Project description to be updated.",
-    },
-    technologies: ["TBD"],
-  },
 ];
 
 export const CONTACT = {
@@ -255,10 +244,12 @@ export const CONTACT = {
     vietnamese: "Cần Thơ, Việt Nam",
     english: "Can Tho, Vietnam",
   },
+  website: "https://vokhanhduy.site",
   social: {
     github: "https://github.com/khanhduydev04",
     linkedin: "https://www.linkedin.com/in/vo-khanh-duy-649744349",
     facebook: "https://www.facebook.com/KhanhDuy.Goalkeeper",
+    zalo: "https://zalo.me/0901226907",
   },
 };
 
