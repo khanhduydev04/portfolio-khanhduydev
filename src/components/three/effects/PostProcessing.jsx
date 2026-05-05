@@ -1,5 +1,6 @@
 import { EffectComposer, Bloom, ChromaticAberration, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
+import { Vector2 } from "three";
 import { useTheme } from "../../../contexts/themeContext";
 
 export default function PostProcessing() {
@@ -15,7 +16,7 @@ export default function PostProcessing() {
       />
       <ChromaticAberration
         blendFunction={BlendFunction.NORMAL}
-        offset={[0.0005, 0.0005]}
+        offset={new Vector2(0.0005, 0.0005)}
       />
       <Vignette
         offset={0.3}

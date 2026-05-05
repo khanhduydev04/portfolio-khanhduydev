@@ -38,12 +38,12 @@ function TimelineLine() {
   }, []);
 
   return (
-    <line>
+    <lineSegments>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={2} itemSize={3} />
       </bufferGeometry>
       <lineBasicMaterial color={darkMode ? "#06b6d4" : "#4f46e5"} transparent opacity={0.5} />
-    </line>
+    </lineSegments>
   );
 }
 
