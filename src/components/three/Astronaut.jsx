@@ -5,61 +5,64 @@ import * as THREE from "three";
 
 useGLTF.preload("/astronaut.glb");
 
-export default function Astronaut({ mouse, scrollProgress = 0 }) {
+export default function Astronaut({ mouse, visible = true }) {
   const groupRef = useRef();
   const { scene } = useGLTF("/astronaut.glb");
-  const clonedScene = useMemo(() => scene.clone(), [scene]);
-
-  useEffect(() => {
-    clonedScene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        if (child.material) {
-          child.material = child.material.clone();
-          child.material.transparent = true;
-        }
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone(true);
+    clone.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.transparent = true;
       }
     });
-  }, [clonedScene]);
+    return clone;
+  }, [scene]);
+
+  const targetOpacity = useRef(1);
 
   useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.elapsedTime;
 
-    // Floating bobbing
-    groupRef.current.position.y = Math.sin(t * 0.5) * 0.2 + 0.5;
+    const targetScale = visible ? 1.8 : 0;
+    groupRef.current.scale.setScalar(
+      THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.05)
+    );
 
-    // Slow Y rotation
-    groupRef.current.rotation.y = t * 0.1;
+    targetOpacity.current = visible ? 1 : 0;
+    clonedScene.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material.opacity = THREE.MathUtils.lerp(
+          child.material.opacity,
+          targetOpacity.current,
+          0.05
+        );
+      }
+    });
 
-    // Mouse parallax tilt
+    groupRef.current.position.y = Math.sin(t * 0.5) * 0.3;
+    groupRef.current.rotation.y = t * 0.15;
+
     if (mouse?.current) {
       groupRef.current.rotation.z = THREE.MathUtils.lerp(
         groupRef.current.rotation.z,
-        mouse.current.x * 0.1,
-        0.05
+        mouse.current.x * 0.15,
+        0.03
       );
       groupRef.current.rotation.x = THREE.MathUtils.lerp(
         groupRef.current.rotation.x,
         -mouse.current.y * 0.1,
-        0.05
+        0.03
       );
     }
-
-    // Scroll fade: scale down and fade out as user scrolls past hero
-    const heroFade = Math.max(0, 1 - scrollProgress * 3);
-    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, heroFade * 2, 0.1));
-
-    clonedScene.traverse((child) => {
-      if (child.isMesh && child.material) {
-        child.material.opacity = heroFade;
-      }
-    });
   });
 
   return (
-    <group ref={groupRef} position={[2.5, 0.5, -1]}>
+    <group ref={groupRef} position={[3, 0, 0]}>
       <primitive object={clonedScene} />
+      <pointLight position={[2, 2, 2]} intensity={2} color="#06b6d4" distance={10} />
+      <pointLight position={[-2, -1, 3]} intensity={1.5} color="#8b5cf6" distance={8} />
     </group>
   );
 }

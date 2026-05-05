@@ -1,6 +1,6 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, Suspense } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { Html, Billboard } from "@react-three/drei";
 import * as THREE from "three";
 import { TECHNOLOGIES } from "../../constants";
 
@@ -16,49 +16,63 @@ function Sun() {
   return (
     <group>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.6, 32, 32]} />
-        <meshStandardMaterial emissive="#f59e0b" emissiveIntensity={2} color="#f59e0b" />
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <meshStandardMaterial emissive="#f59e0b" emissiveIntensity={3} color="#f59e0b" />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.9, 32, 32]} />
-        <meshBasicMaterial color="#f59e0b" transparent opacity={0.1} />
+        <sphereGeometry args={[0.8, 32, 32]} />
+        <meshBasicMaterial color="#f59e0b" transparent opacity={0.08} />
       </mesh>
-      <pointLight color="#f59e0b" intensity={3} distance={20} />
+      <pointLight color="#f59e0b" intensity={4} distance={25} />
     </group>
   );
 }
 
 function Planet({ tech, angle, radius, speed }) {
-  const meshRef = useRef();
+  const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
   const angleRef = useRef(angle);
 
-  const texture = useLoader(THREE.TextureLoader, tech.icon);
+  let texture = null;
+  try {
+    texture = useLoader(THREE.TextureLoader, tech.icon);
+  } catch {
+    texture = null;
+  }
 
   useFrame((_, delta) => {
     if (!hovered) {
       angleRef.current += delta * speed;
     }
-    if (meshRef.current) {
-      meshRef.current.position.x = Math.cos(angleRef.current) * radius;
-      meshRef.current.position.z = Math.sin(angleRef.current) * radius;
-      meshRef.current.rotation.y += delta * 0.5;
+    if (groupRef.current) {
+      groupRef.current.position.x = Math.cos(angleRef.current) * radius;
+      groupRef.current.position.z = Math.sin(angleRef.current) * radius;
     }
   });
 
   return (
-    <group ref={meshRef}>
-      <mesh
-        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
-        onPointerOut={() => setHovered(false)}
-        scale={hovered ? 1.3 : 1}
-      >
-        <sphereGeometry args={[0.35, 24, 24]} />
-        <meshStandardMaterial map={texture} emissive="#ffffff" emissiveIntensity={0.1} />
-      </mesh>
+    <group ref={groupRef}>
+      <Billboard>
+        <mesh
+          onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+          onPointerOut={() => setHovered(false)}
+          scale={hovered ? 1.4 : 1}
+        >
+          <planeGeometry args={[0.6, 0.6]} />
+          {texture ? (
+            <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} />
+          ) : (
+            <meshBasicMaterial color="#06b6d4" transparent opacity={0.5} />
+          )}
+        </mesh>
+        <mesh position={[0, 0, -0.01]} scale={hovered ? 1.6 : 1.2}>
+          <circleGeometry args={[0.35, 32]} />
+          <meshBasicMaterial color={hovered ? "#06b6d4" : "#ffffff"} transparent opacity={hovered ? 0.15 : 0.05} />
+        </mesh>
+      </Billboard>
       {hovered && (
-        <Html center distanceFactor={8} style={{ pointerEvents: "none" }}>
-          <div className="px-2 py-1 bg-neutral-900/80 text-white text-xs rounded whitespace-nowrap backdrop-blur-sm">
+        <Html center distanceFactor={10} style={{ pointerEvents: "none" }}>
+          <div className="px-3 py-1.5 bg-neutral-900/90 text-white text-xs rounded-lg whitespace-nowrap backdrop-blur-sm border border-white/10 font-medium">
             {tech.name}
           </div>
         </Html>
@@ -70,46 +84,61 @@ function Planet({ tech, angle, radius, speed }) {
 function OrbitRing({ radius, color }) {
   return (
     <mesh rotation-x={Math.PI / 2}>
-      <torusGeometry args={[radius, 0.01, 8, 100]} />
-      <meshBasicMaterial color={color} transparent opacity={0.2} />
+      <torusGeometry args={[radius, 0.015, 8, 120]} />
+      <meshBasicMaterial color={color} transparent opacity={0.15} />
     </mesh>
   );
 }
 
-export default function SolarSystem({ visible, scrollProgress = 0 }) {
+function SolarSystemContent({ visible }) {
   const groupRef = useRef();
 
   const allPlanets = useMemo(() => {
     const planets = [];
-    const addGroup = (items, radius, speed, color) => {
+    const addGroup = (items, radius, speed) => {
       items.forEach((tech, i) => {
         const angle = (i / items.length) * Math.PI * 2;
-        planets.push({ tech, angle, radius, speed, color });
+        planets.push({ tech, angle, radius, speed });
       });
     };
-    addGroup(TECHNOLOGIES.frontend, 3.5, 0.3, "#06b6d4");
-    addGroup(TECHNOLOGIES.backend, 5.5, 0.2, "#8b5cf6");
-    addGroup(TECHNOLOGIES.tools, 7.5, 0.12, "#f59e0b");
+    addGroup(TECHNOLOGIES.frontend, 3, 0.3);
+    addGroup(TECHNOLOGIES.backend, 5, 0.2);
+    addGroup(TECHNOLOGIES.tools, 7, 0.12);
     return planets;
   }, []);
 
   useFrame(() => {
     if (!groupRef.current) return;
     groupRef.current.visible = visible;
-    const targetScale = visible ? 1 : 0.5;
-    groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.05);
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, 0.3, 0.02);
+    const targetScale = visible ? 1 : 0.3;
+    groupRef.current.scale.lerp(
+      new THREE.Vector3(targetScale, targetScale, targetScale),
+      0.04
+    );
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      0.4,
+      0.02
+    );
   });
 
   return (
-    <group ref={groupRef} position={[0, -15, -5]}>
+    <group ref={groupRef} position={[0, 0, -5]}>
       <Sun />
-      <OrbitRing radius={3.5} color="#06b6d4" />
-      <OrbitRing radius={5.5} color="#8b5cf6" />
-      <OrbitRing radius={7.5} color="#f59e0b" />
+      <OrbitRing radius={3} color="#06b6d4" />
+      <OrbitRing radius={5} color="#8b5cf6" />
+      <OrbitRing radius={7} color="#f59e0b" />
       {allPlanets.map((p, i) => (
         <Planet key={i} tech={p.tech} angle={p.angle} radius={p.radius} speed={p.speed} />
       ))}
     </group>
+  );
+}
+
+export default function SolarSystem({ visible }) {
+  return (
+    <Suspense fallback={null}>
+      <SolarSystemContent visible={visible} />
+    </Suspense>
   );
 }

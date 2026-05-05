@@ -52,12 +52,12 @@ export default function Hero() {
     <section id="hero" className="relative min-h-screen flex items-center">
       <div className="relative z-10 max-w-4xl mx-auto px-4 lg:px-8 w-full">
         <div className="max-w-2xl">
-          <p className="hero-greeting text-lg md:text-xl text-neutral-400 mb-4 opacity-0">
+          <p className="hero-greeting text-lg md:text-xl text-neutral-500 dark:text-neutral-400 mb-4 opacity-0">
             {HERO_CONTENT.greeting[language]}
           </p>
 
           <h1
-            className="hero-name text-5xl md:text-7xl lg:text-8xl font-bold mb-4 text-white"
+            className="hero-name text-5xl md:text-7xl lg:text-8xl font-bold mb-4 text-neutral-900 dark:text-white"
             style={{ perspective: "600px" }}
           >
             {nameChars.map((char, i) => (
@@ -67,11 +67,11 @@ export default function Hero() {
             ))}
           </h1>
 
-          <p className="hero-role text-2xl md:text-3xl font-medium text-cyan-400 mb-6 opacity-0">
+          <p className="hero-role text-2xl md:text-3xl font-medium text-cyan-600 dark:text-cyan-400 mb-6 opacity-0">
             {HERO_CONTENT.role[language]}
           </p>
 
-          <p className="hero-tagline text-base md:text-lg text-neutral-300 max-w-xl mb-10 opacity-0 leading-relaxed">
+          <p className="hero-tagline text-base md:text-lg text-neutral-600 dark:text-neutral-300 max-w-xl mb-10 opacity-0 leading-relaxed">
             {HERO_CONTENT.tagline[language]}
           </p>
 
@@ -84,7 +84,7 @@ export default function Hero() {
             </MagneticButton>
             <MagneticButton
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="hero-cta inline-block px-6 py-3 border border-cyan-500 text-cyan-400 rounded-full font-medium hover:bg-cyan-500/10 transition-colors opacity-0"
+              className="hero-cta inline-block px-6 py-3 border border-cyan-500 text-cyan-600 dark:text-cyan-400 rounded-full font-medium hover:bg-cyan-500/10 transition-colors opacity-0"
             >
               {language === "vietnamese" ? "Liên hệ" : "Get in touch"}
             </MagneticButton>

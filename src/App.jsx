@@ -41,14 +41,14 @@ export default function App() {
           camera={{ position: [0, 0, 15], fov: 60 }}
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: true }}
-          style={{ background: darkMode ? "#0a0a0a" : "#050510" }}
+          style={{ background: darkMode ? "#0a0a0a" : "#e8edf5" }}
         >
-          <SceneManager scrollData={scrollData} mouse={mouse} />
+          <SceneManager scrollData={scrollData} mouse={mouse} darkMode={darkMode} />
         </Canvas>
       </div>
 
       {/* Scrollable DOM Content */}
-      <div className="relative z-10 font-inter text-neutral-200 antialiased">
+      <div className="relative z-10 font-inter text-neutral-900 dark:text-neutral-200 antialiased">
         <Header />
         <main>
           <Hero />

@@ -2,7 +2,7 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function Starfield({ mouse }) {
+export default function Starfield({ mouse, darkMode = true }) {
   const pointsRef = useRef();
   const count = window.innerWidth < 768 ? 800 : 2000;
 
@@ -14,14 +14,6 @@ export default function Starfield({ mouse }) {
       pos[i * 3 + 2] = (Math.random() - 0.5) * 50 - 10;
     }
     return pos;
-  }, [count]);
-
-  const sizes = useMemo(() => {
-    const s = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      s[i] = Math.random() * 0.08 + 0.02;
-    }
-    return s;
   }, [count]);
 
   useFrame((state) => {
@@ -48,13 +40,12 @@ export default function Starfield({ mouse }) {
     <points ref={pointsRef}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={count} itemSize={3} />
-        <bufferAttribute attach="attributes-size" array={sizes} count={count} itemSize={1} />
       </bufferGeometry>
       <pointsMaterial
         size={0.1}
-        color="#ffffff"
+        color={darkMode ? "#ffffff" : "#94a3b8"}
         transparent
-        opacity={0.8}
+        opacity={darkMode ? 0.8 : 0.4}
         sizeAttenuation
         depthWrite={false}
       />
