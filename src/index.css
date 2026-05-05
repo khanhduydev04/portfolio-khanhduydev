@@ -34,3 +34,12 @@ body {
 .dark ::selection {
   background-color: rgba(6, 182, 212, 0.3);
 }
+
+main {
+  min-height: 600vh;
+}
+
+main > section {
+  position: sticky;
+  top: 0;
+}
