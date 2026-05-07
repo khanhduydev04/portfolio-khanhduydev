@@ -6,19 +6,10 @@ export const ThemeProvider = ({ children }) => {
   const [language, setLanguage] = useState(
     () => localStorage.getItem("language") || "english"
   );
-  const [darkMode, setDarkMode] = useState(() => {
-    const stored = localStorage.getItem("darkMode");
-    return stored !== null ? JSON.parse(stored) : true;
-  });
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
+    document.documentElement.classList.add("dark");
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("language", language);
@@ -26,12 +17,9 @@ export const ThemeProvider = ({ children }) => {
 
   const toggleLanguage = () =>
     setLanguage((prev) => (prev === "vietnamese" ? "english" : "vietnamese"));
-  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
-    <ThemeContext.Provider
-      value={{ language, darkMode, toggleLanguage, toggleDarkMode }}
-    >
+    <ThemeContext.Provider value={{ language, toggleLanguage }}>
       {children}
     </ThemeContext.Provider>
   );

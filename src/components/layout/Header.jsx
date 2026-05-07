@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../../contexts/themeContext";
 import { NAV_LINKS } from "../../constants";
-import { CiLight, CiDark } from "react-icons/ci";
 import { HiMenu, HiX } from "react-icons/hi";
 import { gsap } from "gsap";
 
 export default function Header() {
-  const { language, darkMode, toggleLanguage, toggleDarkMode } = useTheme();
+  const { language, toggleLanguage } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -50,14 +49,14 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/80 dark:bg-neutral-900/80 backdrop-blur-lg shadow-sm"
+          ? "bg-neutral-900/80 backdrop-blur-lg shadow-sm shadow-black/20"
           : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between h-16">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-xl font-bold text-neutral-900 dark:text-white cursor-none"
+          className="text-xl font-bold text-white cursor-none"
         >
           KhanhDuy
         </button>
@@ -69,8 +68,8 @@ export default function Header() {
               onClick={() => scrollTo(link.id)}
               className={`relative text-sm font-medium transition-colors cursor-none ${
                 activeSection === link.id
-                  ? "text-cyan-500 dark:text-cyan-400"
-                  : "text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+                  ? "text-cyan-400"
+                  : "text-neutral-300 hover:text-white"
               }`}
             >
               {link.label[language]}
@@ -88,19 +87,13 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <button
             onClick={toggleLanguage}
-            className="text-sm font-medium px-2 py-1 rounded border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-none"
+            className="text-sm font-medium px-2 py-1 rounded border border-neutral-600 hover:bg-neutral-800 transition-colors cursor-none text-neutral-200"
           >
             {language === "vietnamese" ? "EN" : "VI"}
           </button>
           <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-none"
-          >
-            {darkMode ? <CiLight className="text-xl" /> : <CiDark className="text-xl" />}
-          </button>
-          <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 cursor-none"
+            className="md:hidden p-2 cursor-none text-white"
           >
             {mobileOpen ? <HiX className="text-2xl" /> : <HiMenu className="text-2xl" />}
           </button>
@@ -108,13 +101,13 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-lg z-40">
+        <div className="md:hidden fixed inset-0 top-16 bg-neutral-900/95 backdrop-blur-lg z-40">
           <nav className="flex flex-col items-center justify-center h-full gap-8">
             {NAV_LINKS.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className="mobile-nav-item text-2xl font-medium text-neutral-800 dark:text-neutral-200 cursor-none"
+                className="mobile-nav-item text-2xl font-medium text-neutral-200 cursor-none"
               >
                 {link.label[language]}
               </button>

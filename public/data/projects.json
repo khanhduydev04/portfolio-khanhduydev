@@ -1,0 +1,107 @@
+[
+  {
+    "title": {
+      "vietnamese": "Adlance — Công cụ tạo quảng cáo tĩnh",
+      "english": "Adlance — Static Ads Generator"
+    },
+    "image": null,
+    "video": null,
+    "link": "https://adlance-ads-generator.vercel.app",
+    "github": null,
+    "description": {
+      "vietnamese": "Pipeline tạo quảng cáo end-to-end với Content Adaptation, Brand Intelligence. Quản lý API key mã hóa AES-256-GCM.",
+      "english": "End-to-end ad generation pipeline with Content Adaptation, Brand Intelligence. BYOK encrypted API key management with AES-256-GCM."
+    },
+    "technologies": ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Supabase", "Anthropic API", "Gemini API"]
+  },
+  {
+    "title": {
+      "vietnamese": "Golden Bee - Ứng dụng luyện thi bằng lái xe",
+      "english": "Golden Bee Driving Lessons"
+    },
+    "image": null,
+    "video": null,
+    "link": "https://play.google.com/store/apps/details?id=com.botuclaixe.app",
+    "github": null,
+    "description": {
+      "vietnamese": "Ứng dụng mobile luyện thi bằng lái xe. 600 câu lý thuyết, mô phỏng thi sát hạch, tối ưu flow đăng ký và đặt lịch.",
+      "english": "Cross-platform driving app with 600 theory questions, mock exam simulation. Optimized booking and registration flows."
+    },
+    "technologies": ["React Native", "Expo", "React Navigation", "React Query", "Zod"]
+  },
+  {
+    "title": {
+      "vietnamese": "Thuc Duong Thien Minh",
+      "english": "Thuc Duong Thien Minh"
+    },
+    "image": null,
+    "video": null,
+    "link": "https://thucduongthienminh.com",
+    "github": null,
+    "description": {
+      "vietnamese": "Website e-commerce responsive với admin dashboard tùy chỉnh.",
+      "english": "Responsive e-commerce UI with admin dashboard customization."
+    },
+    "technologies": ["WordPress", "PHP", "Tailwind CSS", "ACF", "AJAX"]
+  },
+  {
+    "title": {
+      "vietnamese": "Ứng dụng quản lý công việc - Trello Clone",
+      "english": "Task Management App - Trello Clone"
+    },
+    "image": "/projects/trello.png",
+    "video": null,
+    "link": "https://trello-lac-two.vercel.app",
+    "github": "https://github.com/khanhduydev04/trello-clone-public",
+    "description": {
+      "vietnamese": "Ứng dụng quản lý công việc với kéo thả, realtime notifications, xác thực JWT.",
+      "english": "Task management app with drag-and-drop, realtime notifications, JWT authentication."
+    },
+    "technologies": ["React", "Node.js", "Express", "MongoDB", "Socket.IO", "Material UI"]
+  },
+  {
+    "title": {
+      "vietnamese": "Hệ thống sàng lọc bệnh AI - Pharmartist",
+      "english": "AI Disease Screening - Pharmartist"
+    },
+    "image": "/projects/pharmartist.png",
+    "video": null,
+    "link": null,
+    "github": null,
+    "description": {
+      "vietnamese": "Hệ thống hỗ trợ y bác sĩ khám sàng lọc bệnh bằng AI, nhận diện triệu chứng qua giọng nói.",
+      "english": "AI-powered disease screening system supporting doctors with voice-based symptom recognition."
+    },
+    "technologies": ["React", "Node.js", "MongoDB", "Gemini API", "Langchain", "Firebase"]
+  },
+  {
+    "title": {
+      "vietnamese": "Zalo Mini App - Trường Việt Anh",
+      "english": "Zalo Mini App - Viet Anh School"
+    },
+    "image": "/projects/vietanhschool.png",
+    "video": null,
+    "link": null,
+    "github": null,
+    "description": {
+      "vietnamese": "Ứng dụng Zalo Mini quản lý thông tin học sinh, thời khóa biểu, điểm số, liên lạc phụ huynh-giáo viên.",
+      "english": "Zalo Mini App for student info management, timetables, grades, parent-teacher communication."
+    },
+    "technologies": ["React", "Tailwind CSS", "Zalo Mini App", "React Hook Form"]
+  },
+  {
+    "title": {
+      "vietnamese": "Portfolio Website",
+      "english": "Portfolio Website"
+    },
+    "image": "/projects/portfolio.png",
+    "video": null,
+    "link": "https://cv.vokhanhduy.site",
+    "github": "https://github.com/khanhduydev04/portfolio-khanhduydev",
+    "description": {
+      "vietnamese": "Website portfolio cá nhân với Three.js 3D animations và GSAP scroll effects.",
+      "english": "Personal portfolio with Three.js 3D animations and GSAP scroll effects."
+    },
+    "technologies": ["React 19", "Three.js", "GSAP", "Tailwind CSS"]
+  }
+]

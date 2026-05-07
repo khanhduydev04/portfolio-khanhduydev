@@ -1,57 +1,58 @@
-import { useState, useEffect } from "react";
-import { useTheme } from "./contexts/themeContext";
+import { useRef, useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useScrollProgress } from "./hooks/useScrollProgress";
+import SceneManager from "./components/three/SceneManager";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import PageLoader from "./components/layout/PageLoader";
 import CustomCursor from "./components/layout/CustomCursor";
 import ScrollProgress from "./components/layout/ScrollProgress";
-import World from "./components/three/World";
-import HeroOverlay from "./components/sections/HeroOverlay";
-import AboutOverlay from "./components/sections/AboutOverlay";
-import TechOverlay from "./components/sections/TechOverlay";
-import ExperienceOverlay from "./components/sections/ExperienceOverlay";
-import ProjectsOverlay from "./components/sections/ProjectsOverlay";
-import ContactOverlay from "./components/sections/ContactOverlay";
-
-function MobileFallback() {
-  return (
-    <div className="font-inter text-neutral-200 antialiased bg-neutral-950 min-h-screen flex items-center justify-center">
-      <p className="text-center text-neutral-400 px-4">Best viewed on desktop for the full 3D experience.</p>
-    </div>
-  );
-}
+import Hero from "./components/sections/Hero";
+import About from "./components/sections/About";
+import Technologies from "./components/sections/Technologies";
+import Experience from "./components/sections/Experience";
+import Projects from "./components/sections/Projects";
+import Contact from "./components/sections/Contact";
 
 export default function App() {
-  const { darkMode } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
+  const scrollData = useScrollProgress();
+  const mouse = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const handleMouseMove = (e) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
-  if (isMobile) {
-    return <MobileFallback />;
-  }
 
   return (
     <>
       <PageLoader />
       <CustomCursor />
       <ScrollProgress />
-      <World />
 
-      <div className="relative z-10 font-inter text-white antialiased">
+      <div className="fixed inset-0 z-0">
+        <Canvas
+          camera={{ position: [0, 0, 15], fov: 60 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true }}
+          style={{ background: "#0a0a0a" }}
+        >
+          <SceneManager scrollData={scrollData} mouse={mouse} />
+        </Canvas>
+      </div>
+
+      <div className="relative z-10 font-inter text-neutral-200 antialiased">
         <Header />
         <main>
-          <HeroOverlay />
-          <AboutOverlay />
-          <TechOverlay />
-          <ExperienceOverlay />
-          <ProjectsOverlay />
-          <ContactOverlay />
+          <Hero />
+          <About />
+          <Technologies />
+          <Experience />
+          <Projects />
+          <Contact />
         </main>
         <Footer />
       </div>
