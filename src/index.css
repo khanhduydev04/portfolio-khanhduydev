@@ -25,12 +25,10 @@ html {
 
 body {
   overflow-x: hidden;
+  background: #0a0a0a;
+  color: #e5e5e5;
 }
 
 ::selection {
-  background-color: rgba(6, 182, 212, 0.3);
-}
-
-.dark ::selection {
   background-color: rgba(6, 182, 212, 0.3);
 }

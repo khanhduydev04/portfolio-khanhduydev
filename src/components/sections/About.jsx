@@ -69,7 +69,7 @@ export default function About() {
   return (
     <section id="about" ref={sectionRef} className="py-20 lg:py-32">
       <div className="container mx-auto px-4 lg:px-8">
-        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-16 text-neutral-900 dark:text-white">
+        <SplitText className="text-3xl md:text-4xl font-bold text-center mb-16 text-white">
           {language === "vietnamese" ? "Về tôi" : "About Me"}
         </SplitText>
 
@@ -86,20 +86,20 @@ export default function About() {
           </div>
 
           <div ref={textRef} className="opacity-0">
-            <p className="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            <p className="text-base lg:text-lg text-neutral-300 leading-relaxed">
               {ABOUT_CONTENT[language]}
             </p>
 
             <div ref={statsRef} className="grid grid-cols-3 gap-6 mt-10">
               {STATS.map((stat) => (
                 <div key={stat.label.english} className="text-center">
-                  <div className="text-3xl font-bold text-cyan-500 dark:text-cyan-400">
+                  <div className="text-3xl font-bold text-cyan-400">
                     <span className="stat-value" data-value={stat.value}>
                       0
                     </span>
                     <span>{stat.suffix}</span>
                   </div>
-                  <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+                  <p className="text-sm text-neutral-400 mt-1">
                     {stat.label[language]}
                   </p>
                 </div>

@@ -8,39 +8,36 @@ import { HiAcademicCap } from "react-icons/hi";
 
 function TimelineCard({ item, index, isEducation = false, language }) {
   return (
-    <div className="timeline-stop flex-shrink-0 w-[85vw] md:w-[400px] lg:w-[420px]">
+    <div className="timeline-stop flex-shrink-0 w-[80vw] md:w-[400px] lg:w-[420px]">
       <div
-        className={`timeline-card p-6 rounded-2xl backdrop-blur-md border transition-all duration-300 h-full ${
+        className={`timeline-card p-4 md:p-6 rounded-2xl backdrop-blur-md border transition-all duration-300 h-full ${
           isEducation
-            ? "bg-gradient-to-br from-amber-500/5 to-purple-500/5 dark:from-amber-500/10 dark:to-purple-500/10 border-amber-500/20 dark:border-amber-500/30"
-            : "bg-white/80 dark:bg-white/5 border-neutral-200/80 dark:border-white/10 hover:border-cyan-500/50 dark:hover:border-cyan-500/30"
+            ? "bg-gradient-to-br from-amber-500/10 to-purple-500/10 border-amber-500/30"
+            : "bg-white/5 border-white/10 hover:border-cyan-500/30"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center gap-3 mb-4">
           <div
             className={`w-3 h-3 rounded-full shrink-0 ${
               isEducation ? "bg-amber-500" : "bg-cyan-500"
             }`}
           />
-          <span className="text-xs text-cyan-600 dark:text-cyan-400 font-mono font-medium">
+          <span className="text-xs text-cyan-400 font-mono font-medium">
             {isEducation ? EDUCATION.time : item.time}
           </span>
         </div>
 
-        {/* Title & Company */}
-        <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-1">
+        <h3 className="text-lg font-bold text-white mb-1">
           {isEducation ? EDUCATION.degree[language] : item.title[language]}
         </h3>
         <div className="flex items-center gap-2 mb-3">
-          {isEducation && <HiAcademicCap className="text-amber-500 dark:text-amber-400" />}
-          <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">
+          {isEducation && <HiAcademicCap className="text-amber-400" />}
+          <p className="text-sm text-purple-400 font-medium">
             {isEducation ? EDUCATION.school : item.company}
           </p>
         </div>
 
-        {/* Description */}
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        <p className="text-sm text-neutral-400 leading-relaxed">
           {isEducation
             ? `${EDUCATION.major[language]} • GPA: ${EDUCATION.gpa}`
             : item.description[language]}
@@ -110,15 +107,13 @@ export default function Experience() {
   return (
     <section ref={sectionRef} id="experience" className="overflow-hidden">
       <div className="pt-20 lg:pt-32 pb-12 container mx-auto px-4 lg:px-8">
-        <SplitText className="text-3xl md:text-4xl font-bold text-center text-neutral-900 dark:text-white">
+        <SplitText className="text-3xl md:text-4xl font-bold text-center text-white">
           {language === "vietnamese" ? "Kinh nghiệm" : "Experience"}
         </SplitText>
       </div>
 
-      {/* Timeline area */}
       <div className="relative min-h-[60vh] flex flex-col justify-center">
-        {/* Progress track line */}
-        <div className="absolute left-0 right-0 top-8 h-[3px] bg-neutral-200/50 dark:bg-white/10">
+        <div className="absolute left-0 right-0 top-4 md:top-8 h-[2px] md:h-[3px] bg-white/10">
           <div
             ref={progressRef}
             className="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-500 origin-left"
@@ -126,8 +121,7 @@ export default function Experience() {
           />
         </div>
 
-        {/* Cards track */}
-        <div ref={trackRef} className="flex items-start gap-6 pt-16 px-[10vw] pb-8">
+        <div ref={trackRef} className="flex items-start gap-4 md:gap-6 pt-10 md:pt-16 px-[5vw] md:px-[10vw] pb-8">
           {allItems.map(({ item, index, isEducation }) => (
             <TimelineCard
               key={index}

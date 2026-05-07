@@ -24,8 +24,9 @@ export function useScrollProgress() {
       }
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const entered = 1 - rect.top / vh;
-      const sectionProg = Math.min(1, Math.max(0, entered));
+      const scrolled = vh - rect.top;
+      const totalTravel = rect.height + vh;
+      const sectionProg = Math.min(1, Math.max(0, scrolled / totalTravel));
       newSectionProgress[id] = sectionProg;
 
       if (rect.top < vh * 0.5 && rect.bottom > vh * 0.5) {

@@ -2,20 +2,20 @@ import Starfield from "./Starfield";
 import Astronaut from "./Astronaut";
 import SolarSystem from "./SolarSystem";
 
-export default function SceneManager({ scrollData, mouse, darkMode }) {
-  const { activeSection } = scrollData;
+export default function SceneManager({ scrollData, mouse }) {
+  const { activeSection, sectionProgress } = scrollData;
 
   const heroVisible = activeSection === "hero";
-  const techVisible = activeSection === "technologies";
+  const techProgress = sectionProgress?.technologies || 0;
 
   return (
     <>
-      <ambientLight intensity={darkMode ? 0.5 : 0.8} color="#ffffff" />
-      <directionalLight position={[5, 5, 5]} intensity={darkMode ? 1.5 : 2} color="#ffffff" />
+      <ambientLight intensity={0.5} color="#ffffff" />
+      <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
 
-      <Starfield mouse={mouse} darkMode={darkMode} />
+      <Starfield mouse={mouse} />
       <Astronaut mouse={mouse} visible={heroVisible} />
-      <SolarSystem visible={techVisible} />
+      <SolarSystem sectionProgress={techProgress} />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function Starfield({ mouse, darkMode = true }) {
+export default function Starfield({ mouse }) {
   const pointsRef = useRef();
   const count = window.innerWidth < 768 ? 800 : 2000;
 
@@ -25,13 +25,13 @@ export default function Starfield({ mouse, darkMode = true }) {
     if (mouse?.current) {
       pointsRef.current.position.x = THREE.MathUtils.lerp(
         pointsRef.current.position.x,
-        mouse.current.x * 0.5,
-        0.02
+        mouse.current.x * 0.3,
+        0.015
       );
       pointsRef.current.position.y = THREE.MathUtils.lerp(
         pointsRef.current.position.y,
-        mouse.current.y * 0.5,
-        0.02
+        mouse.current.y * 0.3,
+        0.015
       );
     }
   });
@@ -43,9 +43,9 @@ export default function Starfield({ mouse, darkMode = true }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.1}
-        color={darkMode ? "#ffffff" : "#94a3b8"}
+        color="#ffffff"
         transparent
-        opacity={darkMode ? 0.8 : 0.4}
+        opacity={0.8}
         sizeAttenuation
         depthWrite={false}
       />

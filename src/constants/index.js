@@ -45,26 +45,28 @@ export const TECHNOLOGIES = {
   frontend: [
     { name: "React", icon: "/technologies/react.png" },
     { name: "Next.js", icon: "/technologies/nextjs-white.png" },
-    { name: "React Native", icon: "/technologies/react.png" },
     { name: "TypeScript", icon: "/technologies/typescript.png" },
     { name: "Tailwind CSS", icon: "/technologies/tailwind.png" },
     { name: "Redux", icon: "/technologies/redux.png" },
+    { name: "Material UI", icon: "/technologies/materialui.png" },
   ],
   backend: [
     { name: "Node.js", icon: "/technologies/nodejs.png" },
-    { name: "Express.js", icon: "/technologies/nodejs.png" },
-    { name: "MongoDB", icon: "/technologies/nodejs.png" },
-    { name: "PostgreSQL", icon: "/technologies/mysql.png" },
+    { name: "Express.js", icon: "/technologies/expressjs.png", dark: true },
+    { name: "JavaScript", icon: "/technologies/javascript.png" },
+    { name: "MongoDB", icon: "/technologies/mongodb.png" },
+    { name: "PostgreSQL", icon: "/technologies/postgresql.png" },
     { name: "MySQL", icon: "/technologies/mysql.png" },
-    { name: "Socket.IO", icon: "/technologies/nodejs.png" },
+    { name: "Socket.IO", icon: "/technologies/socketio.png", dark: true },
   ],
   tools: [
-    { name: "Docker", icon: "/technologies/nodejs.png" },
+    { name: "Docker", icon: "/technologies/docker.png" },
     { name: "Git", icon: "/technologies/github-white.png" },
     { name: "Firebase", icon: "/technologies/firebase.png" },
-    { name: "Supabase", icon: "/technologies/firebase.png" },
+    { name: "Supabase", icon: "/technologies/supabase.png" },
     { name: "Figma", icon: "/technologies/figma.png" },
-    { name: "Jest", icon: "/technologies/javascript.png" },
+    { name: "Jest", icon: "/technologies/jest.png" },
+    { name: "Zustand", icon: "/technologies/zustand.png" },
   ],
 };
 
@@ -138,104 +140,6 @@ export const EDUCATION = {
   gpa: "3.85 / 4.0",
 };
 
-export const PROJECTS = [
-  {
-    title: "Adlance — Static Ads Generator",
-    image: null,
-    link: "https://adlance-ads-generator.vercel.app",
-    github: null,
-    description: {
-      vietnamese:
-        "Pipeline tạo quảng cáo end-to-end với Content Adaptation, Brand Intelligence. Quản lý API key mã hóa AES-256-GCM.",
-      english:
-        "End-to-end ad generation pipeline with Content Adaptation, Brand Intelligence. BYOK encrypted API key management with AES-256-GCM.",
-    },
-    technologies: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Supabase", "Anthropic API", "Gemini API"],
-  },
-  {
-    title: "Golden Bee Driving Lessons",
-    image: null,
-    link: "https://play.google.com/store/apps/details?id=com.botuclaixe.app",
-    github: null,
-    description: {
-      vietnamese:
-        "Ứng dụng mobile luyện thi bằng lái xe. 600 câu lý thuyết, mô phỏng thi sát hạch, tối ưu flow đăng ký và đặt lịch.",
-      english:
-        "Cross-platform driving app with 600 theory questions, mock exam simulation. Optimized booking and registration flows.",
-    },
-    technologies: ["React Native", "Expo", "React Navigation", "React Query", "Zod"],
-  },
-  {
-    title: "Thuc Duong Thien Minh",
-    image: null,
-    link: "https://thucduongthienminh.com",
-    github: null,
-    description: {
-      vietnamese: "Website e-commerce responsive với admin dashboard tùy chỉnh.",
-      english: "Responsive e-commerce UI with admin dashboard customization.",
-    },
-    technologies: ["WordPress", "PHP", "Tailwind CSS", "ACF", "AJAX"],
-  },
-  {
-    title: {
-      vietnamese: "Ứng dụng quản lý công việc - Trello Clone",
-      english: "Task Management App - Trello Clone",
-    },
-    image: "/projects/trello.png",
-    link: "https://trello-lac-two.vercel.app",
-    github: "https://github.com/khanhduydev04/trello-clone-public",
-    description: {
-      vietnamese:
-        "Ứng dụng quản lý công việc với kéo thả, realtime notifications, xác thực JWT.",
-      english:
-        "Task management app with drag-and-drop, realtime notifications, JWT authentication.",
-    },
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Socket.IO", "Material UI"],
-  },
-  {
-    title: {
-      vietnamese: "Hệ thống sàng lọc bệnh AI - Pharmartist",
-      english: "AI Disease Screening - Pharmartist",
-    },
-    image: "/projects/pharmartist.png",
-    link: null,
-    github: null,
-    description: {
-      vietnamese:
-        "Hệ thống hỗ trợ y bác sĩ khám sàng lọc bệnh bằng AI, nhận diện triệu chứng qua giọng nói.",
-      english:
-        "AI-powered disease screening system supporting doctors with voice-based symptom recognition.",
-    },
-    technologies: ["React", "Node.js", "MongoDB", "Gemini API", "Langchain", "Firebase"],
-  },
-  {
-    title: {
-      vietnamese: "Zalo Mini App - Việt Anh School",
-      english: "Zalo Mini App - Viet Anh School",
-    },
-    image: "/projects/vietanhschool.png",
-    link: null,
-    github: null,
-    description: {
-      vietnamese:
-        "Ứng dụng Zalo Mini quản lý thông tin học sinh, thời khóa biểu, điểm số, liên lạc phụ huynh-giáo viên.",
-      english:
-        "Zalo Mini App for student info management, timetables, grades, parent-teacher communication.",
-    },
-    technologies: ["React", "Tailwind CSS", "Zalo Mini App", "React Hook Form"],
-  },
-  {
-    title: "Portfolio Website",
-    image: "/projects/portfolio.png",
-    link: "https://cv.vokhanhduy.site",
-    github: "https://github.com/khanhduydev04/portfolio-khanhduydev",
-    description: {
-      vietnamese: "Website portfolio cá nhân với Three.js 3D animations và GSAP scroll effects.",
-      english: "Personal portfolio with Three.js 3D animations and GSAP scroll effects.",
-    },
-    technologies: ["React 19", "Three.js", "GSAP", "Tailwind CSS"],
-  },
-];
 
 export const CONTACT = {
   email: "vokhanhduy2004@gmail.com",

@@ -16,14 +16,14 @@ function Sun() {
   return (
     <group>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.5, 32, 32]} />
+        <sphereGeometry args={[0.8, 32, 32]} />
         <meshStandardMaterial emissive="#f59e0b" emissiveIntensity={3} color="#f59e0b" />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.8, 32, 32]} />
+        <sphereGeometry args={[1.2, 32, 32]} />
         <meshBasicMaterial color="#f59e0b" transparent opacity={0.08} />
       </mesh>
-      <pointLight color="#f59e0b" intensity={4} distance={25} />
+      <pointLight color="#f59e0b" intensity={5} distance={40} />
     </group>
   );
 }
@@ -47,17 +47,23 @@ function Planet({ tech, angle, radius, speed }) {
   return (
     <group ref={groupRef}>
       <Billboard>
+        {tech.dark && (
+          <mesh position={[0, 0, -0.02]} scale={hovered ? 1.8 : 1}>
+            <circleGeometry args={[0.5, 32]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.15} />
+          </mesh>
+        )}
         <mesh
           onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
           onPointerOut={() => setHovered(false)}
-          scale={hovered ? 1.5 : 1}
+          scale={hovered ? 1.8 : 1}
         >
-          <planeGeometry args={[0.7, 0.7]} />
+          <planeGeometry args={[1.1, 1.1]} />
           <meshBasicMaterial map={texture} transparent alphaTest={0.1} side={THREE.DoubleSide} />
         </mesh>
         {hovered && (
           <mesh position={[0, 0, -0.01]} scale={1.3}>
-            <circleGeometry args={[0.45, 32]} />
+            <circleGeometry args={[0.7, 32]} />
             <meshBasicMaterial color="#06b6d4" transparent opacity={0.15} />
           </mesh>
         )}
@@ -76,14 +82,15 @@ function Planet({ tech, angle, radius, speed }) {
 function OrbitRing({ radius, color }) {
   return (
     <mesh rotation-x={Math.PI / 2}>
-      <torusGeometry args={[radius, 0.015, 8, 120]} />
+      <torusGeometry args={[radius, 0.02, 8, 120]} />
       <meshBasicMaterial color={color} transparent opacity={0.2} />
     </mesh>
   );
 }
 
-function SolarSystemContent({ visible }) {
+function SolarSystemContent({ sectionProgress }) {
   const groupRef = useRef();
+  const scaleRef = useRef(0);
 
   const allPlanets = useMemo(() => {
     const planets = [];
@@ -93,20 +100,22 @@ function SolarSystemContent({ visible }) {
         planets.push({ tech, angle, radius, speed });
       });
     };
-    addGroup(TECHNOLOGIES.frontend, 3, 0.3);
-    addGroup(TECHNOLOGIES.backend, 5, 0.2);
-    addGroup(TECHNOLOGIES.tools, 7, 0.12);
+    addGroup(TECHNOLOGIES.frontend, 4, 0.3);
+    addGroup(TECHNOLOGIES.backend, 7, 0.2);
+    addGroup(TECHNOLOGIES.tools, 10, 0.12);
     return planets;
   }, []);
 
   useFrame(() => {
     if (!groupRef.current) return;
-    groupRef.current.visible = visible;
-    const targetScale = visible ? 1 : 0.3;
-    groupRef.current.scale.lerp(
-      new THREE.Vector3(targetScale, targetScale, targetScale),
-      0.04
-    );
+
+    const zoomCurve = Math.sin(sectionProgress * Math.PI);
+    const targetScale = zoomCurve * 1.1;
+
+    scaleRef.current = THREE.MathUtils.lerp(scaleRef.current, targetScale, 0.06);
+    groupRef.current.scale.setScalar(scaleRef.current);
+    groupRef.current.visible = scaleRef.current > 0.01;
+
     groupRef.current.rotation.x = THREE.MathUtils.lerp(
       groupRef.current.rotation.x,
       0.4,
@@ -117,9 +126,9 @@ function SolarSystemContent({ visible }) {
   return (
     <group ref={groupRef} position={[0, 0, -5]}>
       <Sun />
-      <OrbitRing radius={3} color="#06b6d4" />
-      <OrbitRing radius={5} color="#8b5cf6" />
-      <OrbitRing radius={7} color="#f59e0b" />
+      <OrbitRing radius={4} color="#06b6d4" />
+      <OrbitRing radius={7} color="#8b5cf6" />
+      <OrbitRing radius={10} color="#f59e0b" />
       {allPlanets.map((p, i) => (
         <Suspense key={i} fallback={null}>
           <Planet tech={p.tech} angle={p.angle} radius={p.radius} speed={p.speed} />
@@ -129,10 +138,10 @@ function SolarSystemContent({ visible }) {
   );
 }
 
-export default function SolarSystem({ visible }) {
+export default function SolarSystem({ sectionProgress = 0 }) {
   return (
     <Suspense fallback={null}>
-      <SolarSystemContent visible={visible} />
+      <SolarSystemContent sectionProgress={sectionProgress} />
     </Suspense>
   );
 }
